@@ -28,7 +28,6 @@ from fr_utils import *
 from inception_blocks_v2 import *
 
 capture_current_image = False
-ref_data = {}
 
 print("--- %s seconds to import other files ---" % (time.time() - start_time))
 
@@ -84,7 +83,6 @@ def capture_img():
     cv2.namedWindow("Live Frame")
     print("--- Hit Space Bar to take Image ---")
 
-
     while True:
         ret, frame = cam.read()
         cv2.imshow("Live Frame", frame)
@@ -108,7 +106,6 @@ def capture_img():
 
     for (x,y,w,h) in face1:
         imgg = cv2.rectangle(your_image1,(x,y),(x+w,y+h),(255,255,255),2)
-        #roi_gray = gray[y:y+h, x:x+w]
         roi_color1 = imgg[y:y+h, x:x+w]
         roi_color1 = cv2.resize(roi_color1, (96, 96))
         cv2.imwrite('Your_present_img.jpg',roi_color1)
@@ -118,7 +115,7 @@ def capture_img():
     return current_encoding
 
 
-# In[4]:
+# In[5]:
 
 
 #CHECK IF REFERENCE IMAGE PRESENT IN DIRECTORY, ELSE SET REF IMAGE AND ITS ENCODING
@@ -135,14 +132,14 @@ def check_ref():
 
             cv2.namedWindow("Live Frame")
             print("--- Hit Space Bar to take Image ---")
-            
+
             while True:
                 ret, frame = cam.read()
                 cv2.imshow("Live Frame", frame)
                 if not ret:
                     break
                 k = cv2.waitKey(1)
-               
+
                 if k%256 == 32:
                     # SPACE pressed
                     img_name = "Your_ref_Image_1.jpg"
@@ -165,55 +162,69 @@ def check_ref():
                 # get encoding
                 ref_data = img_to_encoding(roi_color, FRmodel)
             
+            print(ref_data)
+            
             # save encoding
             with open('ref_outfile', 'wb') as fp:
                 pickle.dump(ref_data, fp)
                 
             return print('--- Hello, Reference Image & Encoding Set, Run Code Again. ---')
         
+        
+        
         set_ref_img()
         
     return current_encoding
 
 
-# In[5]:
+# In[16]:
 
 
 def image_match():
-    min_dist = 0.5
+    min_dist = 0.4
     # input reference image encoding
     with open ('ref_outfile', 'rb') as fp:
         ref_encoding = pickle.load(fp)
     # reference encoding - current encoding  
-    dist = np.linalg.norm(ref_encoding - current_encoding) 
+    dist = np.linalg.norm(ref_encoding - current_encoding)
+    #print(dist)
+    #print(ref_encoding)
+    #print(current_encoding)
     
-    if dist < min_dist:
-            min_dist = dist
-            print(min_dist)
+    if dist <= min_dist:
+            #min_dist = dist
+            print(dist)
             print('***** VERIFIED, HELLO ROHAN *****')
             
     else:
-        print(min_dist)
+        print(dist) 
         print('***** SORRY, WRONG FACE DETECTED *****')
-    
-    
 
 
-# In[6]:
+# In[74]:
 
 
 current_encoding = check_ref()
-#print(current_encoding)
 
 
-# In[7]:
+# In[75]:
 
 
 image_match()
 
 
-# In[8]:
+# In[71]:
 
 
-#print(ref_encoding)
+# with open('ref_outfile', 'rb') as fp:
+#     ref_encoding = pickle.load(fp)
+# print(ref_encoding)
+    
+    
+
+
+# In[10]:
+
+
+
 
