@@ -3,7 +3,7 @@ This repository takes inspiration from modern day "Face Unlock" feature found in
 
 ## How to use :
 The project requirements can be installed using
-  pip install -r requirements.txt
+	pip install -r requirements.txt
 The project can be run using
 	python main.py
   
