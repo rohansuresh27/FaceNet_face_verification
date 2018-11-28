@@ -1,0 +1,7 @@
+tensorflow
+keras
+scipy
+cv2
+pickle
+h5py
+matplotlib
