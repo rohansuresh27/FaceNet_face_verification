@@ -1,8 +1,5 @@
 # coding: utf-8
 
-# In[1]:
-
-
 import time
 start_time = time.time()
 import cv2
@@ -26,12 +23,7 @@ print("--- %s seconds importing libraries ---" % (time.time() - start_time))
 from fr_utils import *
 from inception_blocks_v2 import *
 
-capture_current_image = False
-
 print("--- %s seconds to import other files ---" % (time.time() - start_time))
-
-
-# In[2]:
 
 
 FRmodel = faceRecoModel(input_shape=(3, 96, 96))  #(3, 196, 196)
@@ -69,9 +61,6 @@ print("--- %s seconds to compile model ---" % (time.time() - start_time))
 
 load_weights_from_FaceNet(FRmodel)
 print("--- %s seconds to load weights ---" % (time.time() - start_time))
-
-
-# In[3]:
 
 
 # YOUR PRESENT IMAGE 
@@ -112,10 +101,6 @@ def capture_img():
         current_encoding = img_to_encoding(roi_color1, FRmodel)
         
     return current_encoding
-
-
-# In[5]:
-
 
 #CHECK IF REFERENCE IMAGE PRESENT IN DIRECTORY, ELSE SET REF IMAGE AND ITS ENCODING
 
@@ -168,15 +153,10 @@ def check_ref():
                 pickle.dump(ref_data, fp)
                 
             return print('--- Hello, Reference Image & Encoding Set, Run Code Again. ---')
-        
-        
-        
+                
         set_ref_img()
-        
+    
     return current_encoding
-
-
-# In[16]:
 
 
 def image_match():
@@ -199,31 +179,6 @@ def image_match():
         print(dist) 
         print('***** SORRY, WRONG FACE DETECTED *****')
 
-
-# In[74]:
-
-
 current_encoding = check_ref()
 
-
-# In[75]:
-
-
 image_match()
-
-
-# In[71]:
-
-
-# with open('ref_outfile', 'rb') as fp:
-#     ref_encoding = pickle.load(fp)
-# print(ref_encoding)
-    
-    
-
-
-# In[10]:
-
-
-
-
